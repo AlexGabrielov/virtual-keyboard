@@ -1,6 +1,20 @@
+body {
+  display: flex;
+  justify-content: center;
+}
 .keyboard {
+  border: 1px solid plum;
+  display: inline-grid;
+  grid-template-columns: repeat(15, 50px);
+  grid-gap: 10px;
+  padding: 10px;
 }
 .key {
+  border: 1px solid navy;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .backspace,
 .capslock,
