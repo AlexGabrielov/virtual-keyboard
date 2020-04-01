@@ -1,6 +1,8 @@
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
 }
 .keyboard {
   border: 1px solid plum;
@@ -8,6 +10,8 @@ body {
   grid-template-columns: repeat(15, 50px);
   grid-gap: 10px;
   padding: 10px;
+  margin-top: 10px;
+  user-select: none;
 }
 .key {
   border: 1px solid navy;
@@ -16,13 +20,17 @@ body {
   justify-content: center;
   align-items: center;
 }
-.backspace,
-.capslock,
-.enter,
-.shift {
+.Backspace,
+.CapsLock,
+.Enter,
+.Shift {
   grid-column: span 2;
 }
 
-.whitespace {
+.Whitespace {
   grid-column: span 7;
+}
+.textarea {
+  width: 910px;
+  height: 320px;
 }
