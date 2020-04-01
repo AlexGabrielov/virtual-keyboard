@@ -1,0 +1,14 @@
+.keyboard {
+}
+.key {
+}
+.backspace,
+.capslock,
+.enter,
+.shift {
+  grid-column: span 2;
+}
+
+.whitespace {
+  grid-column: span 7;
+}
