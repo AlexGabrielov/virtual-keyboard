@@ -34,3 +34,12 @@ body {
   width: 910px;
   height: 320px;
 }
+.active {
+  background-color: cyan;
+}
+.text {
+  margin-top: 15px;
+  font-size: 24px;
+  width: 31%;
+  color: GREY;
+}
