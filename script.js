@@ -50,33 +50,32 @@ const renderText = () => {
   BODY.appendChild(text);
 };
 const renderKeyboard = (lang, shift = false) => {
-  KEYBOARD.innerHTML = '';
   let keyboardTypeFlat;
   if (lang === 'eng' && shift === true) keyboardTypeFlat = keyboardEngShift.flat();
   if (lang === 'ru' && shift === true) keyboardTypeFlat = keyboardRuShift.flat();
   if (lang === 'eng' && shift === false) keyboardTypeFlat = keyboardEng.flat();
   if (lang === 'ru' && shift === false) keyboardTypeFlat = keyboardRuShift.flat();
-
-  keyboardTypeFlat.forEach((e) => {
-    const key = document.createElement('div');
-    key.classList.add('key');
-    key.innerText = e;
-    if (e === ' ') {
-      key.classList.add('Whitespace');
-    }
-    if (e === 'Backspace' || e === 'CapsLock' || e === 'Enter' || e === 'Shift') {
-      key.classList.add(e);
-    }
-    KEYBOARD.appendChild(key);
-  });
+  if (!KEYBOARD.innerHTML) {
+    keyboardTypeFlat.forEach((e) => {
+      const key = document.createElement('div');
+      key.classList.add('key');
+      key.innerText = e;
+      if (e === ' ') {
+        key.classList.add('Whitespace');
+      }
+      if (e === 'Backspace' || e === 'CapsLock' || e === 'Enter' || e === 'Shift') {
+        key.classList.add(e);
+      }
+      KEYBOARD.appendChild(key);
+    });
+  } else {
+    KEYBOARD.childNodes.forEach((e, i) => {
+      e.innerHTML = keyboardTypeFlat[i];
+    });
+  }
 };
 
 const keydownHandler = ({ key }) => {
-  KEYBOARD.querySelectorAll('.key').forEach((e) => {
-    if (key === e.innerText) {
-      e.classList.add('active');
-    }
-  });
   if (key === 'Shift') {
     if (currentLang === 'eng') {
       renderKeyboard('eng', true);
@@ -84,14 +83,14 @@ const keydownHandler = ({ key }) => {
       renderKeyboard('ru', true);
     }
   }
+  KEYBOARD.querySelectorAll('.key').forEach((e) => {
+    if (key === e.innerText) {
+      e.classList.add('active');
+    }
+  });
 };
 
 const keyupHandler = ({ key }) => {
-  KEYBOARD.querySelectorAll('.key').forEach((e) => {
-    if (key === e.innerText) {
-      e.classList.remove('active');
-    }
-  });
   if (key === 'Shift') {
     if (currentLang === 'eng') {
       renderKeyboard('eng');
@@ -99,9 +98,22 @@ const keyupHandler = ({ key }) => {
       renderKeyboard('ru');
     }
   }
+  KEYBOARD.querySelectorAll('.key').forEach((e) => {
+    if (key === e.innerText) {
+      e.classList.remove('active');
+    }
+  });
 };
 
 const mousedownHandler = ({ target }) => {
+  if (target.innerText === 'Shift') {
+    // console.log(target.innerText);
+    if (currentLang === 'eng') {
+      renderKeyboard('eng', true);
+    } else {
+      renderKeyboard('ru', true);
+    }
+  }
   KEYBOARD.querySelectorAll('.key').forEach((e) => {
     if (target.innerText === e.innerText) {
       e.classList.add('active');
@@ -110,6 +122,13 @@ const mousedownHandler = ({ target }) => {
 };
 
 const mouseupHandler = ({ target }) => {
+  if (target.innerText === 'Shift') {
+    if (currentLang === 'eng') {
+      renderKeyboard('eng');
+    } else {
+      renderKeyboard('ru');
+    }
+  }
   KEYBOARD.querySelectorAll('.key').forEach((e) => {
     if (e.classList.contains('active')) {
       e.classList.remove('active');
