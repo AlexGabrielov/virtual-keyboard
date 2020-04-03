@@ -3,6 +3,7 @@ body {
   flex-direction: column;
   align-items: center;
   font-size: 12px;
+  box-sizing: border-box;
 }
 .keyboard {
   border: 1px solid plum;
@@ -12,6 +13,8 @@ body {
   padding: 10px;
   margin-top: 10px;
   user-select: none;
+  background-color: rgb(86, 194, 179);
+  border-radius: 10px;
 }
 .key {
   border: 1px solid navy;
@@ -19,6 +22,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  background-color: rgb(224, 89, 89);
+  color: rgb(121, 74, 16);
 }
 .Backspace,
 .CapsLock,
@@ -31,8 +37,12 @@ body {
   grid-column: span 7;
 }
 .textarea {
-  width: 910px;
+  width: 900px;
   height: 320px;
+  background-color: whitesmoke;
+  color: royalblue;
+  font-size: 20px;
+  border-radius: 10px;
 }
 .active {
   background-color: cyan;
@@ -41,5 +51,5 @@ body {
   margin-top: 15px;
   font-size: 24px;
   width: 31%;
-  color: GREY;
+  color: rgb(83, 160, 53);
 }
