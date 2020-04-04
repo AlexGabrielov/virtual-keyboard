@@ -126,16 +126,33 @@ const keydownHandler = (event) => {
     if (key === 'ArrowUp' && e.innerHTML === '↑') {
       e.classList.add('active');
     }
-
-    // if (key === 'CapsLock') {
-    //   e.classList.add('active');
-    // }
+    if (code === 'ShiftLeft' && e.innerHTML === 'LShift') {
+      e.classList.add('active');
+    }
+    if (code === 'ShiftRight' && e.innerHTML === 'RShift') {
+      e.classList.add('active');
+    }
+    if (code === 'ControlLeft' && e.innerHTML === 'LCtrl') {
+      e.classList.add('active');
+    }
+    if (code === 'ControlRight' && e.innerHTML === 'RCtrl') {
+      e.classList.add('active');
+    }
+    if (code === 'AltLeft' && e.innerHTML === 'LAlt') {
+      e.classList.add('active');
+    }
+    if (code === 'AltRight' && e.innerHTML === 'RAlt') {
+      e.classList.add('active');
+    }
+    if (code === 'MetaLeft' && e.innerHTML === 'Win') {
+      e.classList.add('active');
+    }
   });
 };
 
 const keyupHandler = (event) => {
   event.preventDefault();
-  const { key } = event;
+  const { key, code } = event;
   if (key === 'Shift') {
     shift = false;
     if (currentLang === 'eng') {
@@ -146,6 +163,39 @@ const keyupHandler = (event) => {
   }
   KEYBOARD.querySelectorAll('.key').forEach((e) => {
     if (key === e.innerHTML && key !== 'CapsLock') {
+      e.classList.remove('active');
+    }
+    if (key === 'ArrowLeft' && e.innerHTML === '←') {
+      e.classList.remove('active');
+    }
+    if (key === 'ArrowDown' && e.innerHTML === '↓') {
+      e.classList.remove('active');
+    }
+    if (key === 'ArrowRight' && e.innerHTML === '→') {
+      e.classList.remove('active');
+    }
+    if (key === 'ArrowUp' && e.innerHTML === '↑') {
+      e.classList.remove('active');
+    }
+    if (code === 'ShiftLeft' && e.innerHTML === 'LShift') {
+      e.classList.remove('active');
+    }
+    if (code === 'ShiftRight' && e.innerHTML === 'RShift') {
+      e.classList.remove('active');
+    }
+    if (code === 'ControlLeft' && e.innerHTML === 'LCtrl') {
+      e.classList.remove('active');
+    }
+    if (code === 'ControlRight' && e.innerHTML === 'RCtrl') {
+      e.classList.remove('active');
+    }
+    if (code === 'AltLeft' && e.innerHTML === 'LAlt') {
+      e.classList.remove('active');
+    }
+    if (code === 'AltRight' && e.innerHTML === 'RAlt') {
+      e.classList.remove('active');
+    }
+    if (code === 'MetaLeft' && e.innerHTML === 'Win') {
       e.classList.remove('active');
     }
   });
