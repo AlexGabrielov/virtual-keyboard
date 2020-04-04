@@ -30,7 +30,8 @@ body {
 .Backspace,
 .CapsLock,
 .Enter,
-.Shift {
+.LShift,
+.RShift {
   grid-column: span 2;
 }
 
@@ -52,6 +53,12 @@ body {
 .text {
   margin-top: 15px;
   font-size: 24px;
-  width: 34%;
+  width: 35%;
   color: rgb(14, 41, 161);
+}
+.ArrowLeft,
+.ArrowRight,
+.ArrowUp,
+.ArrowDown {
+  font-size: 18px;
 }
