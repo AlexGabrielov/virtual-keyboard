@@ -8,9 +8,10 @@ const OSText = 'Клавиатура создана в операционной 
 const switchKeyboard = 'Чтобы переключить язык нажмите левые Control + Alt';
 const BODY = document.body;
 localStorage.currentLang = localStorage.currentLang || 'eng';
-let { currentLang } = localStorage;
 let shift = false;
 let capslock = false;
+let alt = false;
+let ctrl = false;
 
 const keyboardEng = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
@@ -95,7 +96,7 @@ const keydownHandler = (event) => {
   const { key, code } = event;
   if (key === 'Shift' && !shift) {
     shift = true;
-    if (currentLang === 'eng') {
+    if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng', true);
     } else {
       renderKeyboard('ru', true);
@@ -103,15 +104,25 @@ const keydownHandler = (event) => {
   }
   if (key === 'CapsLock' && !capslock) {
     capslock = !capslock;
-    if (currentLang === 'eng') {
+    if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng', capslock);
     } else {
       renderKeyboard('ru', capslock);
     }
   }
+  if (key === 'Alt') {
+    alt = true;
+  }
+  if (key === 'Control') {
+    ctrl = true;
+  }
+
   KEYBOARD.querySelectorAll('.key').forEach((e) => {
-    if (key === e.innerHTML) {
+    if (key === e.innerHTML && key !== 'CapsLock') {
       e.classList.add('active');
+    }
+    if (key === 'CapsLock' && key === e.innerHTML) {
+      e.classList.toggle('active');
     }
 
     if (key === 'ArrowLeft' && e.innerHTML === '←') {
@@ -155,11 +166,34 @@ const keyupHandler = (event) => {
   const { key, code } = event;
   if (key === 'Shift') {
     shift = false;
-    if (currentLang === 'eng') {
+    if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng');
     } else {
       renderKeyboard('ru');
     }
+  }
+  // if (key === 'Alt' && !ctrl) {
+  //   alt = false;
+  // }
+  // if (key === 'Control' && !alt) {
+  //   ctrl = false;
+  // }
+  if (ctrl && alt) {
+    if (localStorage.currentLang === 'eng') {
+      localStorage.currentLang = 'ru';
+      renderKeyboard(localStorage.currentLang, shift);
+    } else {
+      localStorage.currentLang = 'eng';
+      renderKeyboard(localStorage.currentLang, shift);
+    }
+    ctrl = false;
+    alt = false;
+  }
+  if (key === 'Alt') {
+    alt = false;
+  }
+  if (key === 'Control') {
+    ctrl = false;
   }
   KEYBOARD.querySelectorAll('.key').forEach((e) => {
     if (key === e.innerHTML && key !== 'CapsLock') {
@@ -212,7 +246,7 @@ const mousedownHandler = (event) => {
   const { target } = event;
   if (target.innerHTML === 'Shift' && !shift) {
     shift = true;
-    if (currentLang === 'eng') {
+    if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng', true);
     } else {
       renderKeyboard('ru', true);
@@ -228,7 +262,7 @@ const mousedownHandler = (event) => {
 const mouseupHandler = (event) => {
   const { target } = event;
   if (target.innerHTML === 'Shift') {
-    if (currentLang === 'eng') {
+    if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng');
     } else {
       renderKeyboard('ru');
@@ -248,6 +282,6 @@ KEYBOARD.addEventListener('mousedown', mousedownHandler);
 
 renderTextarea();
 BODY.appendChild(KEYBOARD);
-renderKeyboard(currentLang);
+renderKeyboard(localStorage.currentLang);
 
 renderText();
