@@ -5,7 +5,7 @@ TEXTAREA.classList.add('textarea');
 const KEYBOARD = document.createElement('div');
 KEYBOARD.classList.add('keyboard');
 const OSText = 'Клавиатура создана в операционной системе Windows 10 ';
-const switchKeyboard = 'Чтобы переключить язык нажмите левые Control + Alt';
+const switchKeyboard = 'Чтобы переключить язык нажмите любые Ctrl + Alt';
 const BODY = document.body;
 localStorage.currentLang = localStorage.currentLang || 'eng';
 let shift = false;
@@ -63,12 +63,13 @@ const renderKeyboard = (lang, keyboardCase = false) => {
       const key = document.createElement('div');
       key.classList.add('key');
       key.innerHTML = e;
-      if (e === ' ') {
-        key.classList.add('Whitespace');
-      }
       if (e.length > 1) {
         key.classList.add(e);
       }
+      if (e === ' ') {
+        key.classList.add('Whitespace');
+      }
+
       if (e === '←') {
         key.classList.add('ArrowLeft');
       }
@@ -94,15 +95,16 @@ const renderKeyboard = (lang, keyboardCase = false) => {
 const keydownHandler = (event) => {
   event.preventDefault();
   const { key, code } = event;
-  if (key === 'Shift' && !shift) {
+  let { selectionStart, selectionEnd } = TEXTAREA;
+  if (key === 'Shift') {
     shift = true;
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', true);
+      renderKeyboard('eng', shift);
     } else {
-      renderKeyboard('ru', true);
+      renderKeyboard('ru', shift);
     }
   }
-  if (key === 'CapsLock' && !capslock) {
+  if (key === 'CapsLock') {
     capslock = !capslock;
     if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng', capslock);
@@ -157,6 +159,11 @@ const keydownHandler = (event) => {
     }
     if (code === 'MetaLeft' && e.innerHTML === 'Win') {
       e.classList.add('active');
+    }
+    if (key === e.innerHTML && selectionStart === selectionEnd) {
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + e.innerHTML + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.selectionStart = selectionStart + e.innerHTML.length;
+      TEXTAREA.selectionEnd = selectionStart + e.innerHTML.length;
     }
   });
 };
@@ -243,25 +250,43 @@ const keyupHandler = (event) => {
 };
 
 const mousedownHandler = (event) => {
+  event.preventDefault();
   const { target } = event;
-  if (target.innerHTML === 'Shift' && !shift) {
+  let { selectionStart, selectionEnd } = TEXTAREA;
+  if ((target.innerHTML === 'RShift' || target.innerHTML === 'LShift') && !shift) {
     shift = true;
     if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng', true);
     } else {
       renderKeyboard('ru', true);
     }
+    // return;
   }
-  KEYBOARD.querySelectorAll('.key').forEach((e) => {
-    if (target.innerHTML === e.innerHTML) {
-      e.classList.add('active');
-    }
-  });
+
+  if (target.classList.contains('key')) {
+    target.classList.add('active');
+
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + target.innerHTML + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.selectionStart = selectionStart + target.innerHTML.length;
+    TEXTAREA.selectionEnd = selectionStart + target.innerHTML.length;
+  }
+
+  // KEYBOARD.querySelectorAll('.key').forEach((e) => {
+  //   if (target.innerHTML === e.innerHTML && selectionStart === selectionEnd) {
+  //     TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + e.innerHTML + TEXTAREA.value.substr(selectionStart);
+  //     TEXTAREA.selectionStart = selectionStart + e.innerHTML.length;
+  //     TEXTAREA.selectionEnd = selectionStart + e.innerHTML.length;
+  //   }
+  //   if (target.innerHTML === e.innerHTML) {
+  //     e.classList.add('active');
+  //   }
+  // });
 };
 
 const mouseupHandler = (event) => {
   const { target } = event;
-  if (target.innerHTML === 'Shift') {
+  if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
+    shift = false;
     if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng');
     } else {
