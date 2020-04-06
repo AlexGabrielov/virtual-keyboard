@@ -129,7 +129,7 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
 
 const keydownHandler = (event) => {
   event.preventDefault();
-  const { key, code, which } = event;
+  const { key, code, which, location } = event;
   let { selectionStart, selectionEnd } = TEXTAREA;
   if (key === 'Shift') {
     shift = true;
@@ -146,12 +146,11 @@ const keydownHandler = (event) => {
   if (key === 'Control') {
     ctrl = true;
   }
-  if (key !== 'CapsLock' && key.length === 1) {
+  if (key !== 'CapsLock' && !location) {
     KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
     // return;
   }
-
-  console.log(KEYBOARD.getElementsByClassName(code)[0], code);
+  // const pressedKey = KEYBOARD.getElementsByClassName(which)[0];
 
   if (code === 'ShiftLeft') {
     KEYBOARD.getElementsByClassName(code)[0].classList.add('active');
@@ -171,8 +170,12 @@ const keydownHandler = (event) => {
   if (code === 'AltRight') {
     KEYBOARD.getElementsByClassName(code)[0].classList.add('active');
   }
+  if (KEYBOARD.getElementsByClassName(which)[0].innerHTML.length === 1) {
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + KEYBOARD.getElementsByClassName(which)[0].innerHTML + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.selectionStart = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+    TEXTAREA.selectionEnd = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+  }
 };
-
 const keyupHandler = (event) => {
   event.preventDefault();
   const { key, code, which } = event;
@@ -184,12 +187,7 @@ const keyupHandler = (event) => {
       renderKeyboard('ru', shift, capslock);
     }
   }
-  // if (key === 'Alt' && !ctrl) {
-  //   alt = false;
-  // }
-  // if (key === 'Control' && !alt) {
-  //   ctrl = false;
-  // }
+
   if (ctrl && alt) {
     if (localStorage.currentLang === 'eng') {
       localStorage.currentLang = 'ru';
