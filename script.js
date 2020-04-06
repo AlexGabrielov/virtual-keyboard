@@ -42,6 +42,13 @@ const keyboardRuShift = [
   ['LShift', 'Я', 'Ч', 'С', 'Ь', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'RShift'],
   ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
 ];
+const keyWhichProps = [
+  ['192', '49', '50', '51', '52', '53', '54', '55', '56', '57', '48', '189', '187', '8'],
+  ['9', '81', '87', '69', '82', '84', '89', '85', '73', '79', '80', '219', '221', '191', '46'],
+  ['20', '65', '83', '68', '70', '71', '72', '74', '75', '76', '186', '222', '13'],
+  ['16', '90', '88', '67', '86', '66', '78', '77', '188', '190', '191', '38', '16'],
+  ['17', '91', '18', '32', '18', '37', '40', '39', '17'],
+];
 
 const renderTextareaAndKeyboard = () => {
   BODY.appendChild(TEXTAREA);
@@ -255,23 +262,13 @@ const mousedownHandler = (event) => {
   let { selectionStart, selectionEnd } = TEXTAREA;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     shift = true;
-    if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', shift, capslock);
-    } else {
-      renderKeyboard('ru', shift, capslock);
-    }
+    renderKeyboard(localStorage.currentLang, shift, capslock);
     // return;
   }
   if (target.innerHTML === 'CapsLock') {
-    console.log(capslock);
     capslock = !capslock;
-    console.log(capslock);
-    if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', shift, capslock);
-    } else {
-      renderKeyboard('ru', shift, capslock);
-    }
     target.classList.toggle('active');
+    renderKeyboard(localStorage.currentLang, shift, capslock);
   }
   if (target.innerHTML === 'LAlt' || target.innerHTML === 'RAlt') {
     alt = true;
@@ -287,24 +284,9 @@ const mousedownHandler = (event) => {
     TEXTAREA.selectionStart = selectionStart + target.innerHTML.length;
     TEXTAREA.selectionEnd = selectionStart + target.innerHTML.length;
   }
-
-  // KEYBOARD.querySelectorAll('.key').forEach((e) => {
-  //   if (target.innerHTML === e.innerHTML && selectionStart === selectionEnd) {
-  //     TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + e.innerHTML + TEXTAREA.value.substr(selectionStart);
-  //     TEXTAREA.selectionStart = selectionStart + e.innerHTML.length;
-  //     TEXTAREA.selectionEnd = selectionStart + e.innerHTML.length;
-  //   }
-  //   if (target.innerHTML === e.innerHTML) {
-  //     e.classList.add('active');
-  //   }
-  // });
 };
 
 const mouseupHandler = (event) => {
-  // shift = false;
-  // capslock = false;
-  // alt = false;
-  // ctrl = false;
   const { target } = event;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     if (localStorage.currentLang === 'eng') {
