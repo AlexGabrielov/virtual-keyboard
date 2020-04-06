@@ -176,8 +176,6 @@ const keydownHandler = (event) => {
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Enter') {
     const enter = '\n';
     TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + enter + TEXTAREA.value.substr(selectionStart);
-    // TEXTAREA.selectionStart = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
-    // TEXTAREA.selectionEnd = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Tab') {
     const tab = '    ';
@@ -258,9 +256,10 @@ const mousedownHandler = (event) => {
   }
   if (target.innerHTML === 'CapsLock') {
     capslock = !capslock;
-    target.classList.toggle('active');
     renderKeyboard(localStorage.currentLang, shift, capslock);
+    target.classList.toggle('active');
   }
+
   if (target.innerHTML === 'LAlt' || target.innerHTML === 'RAlt') {
     alt = true;
   }
@@ -268,12 +267,33 @@ const mousedownHandler = (event) => {
     ctrl = true;
   }
 
-  if (target.classList.contains('key') && target.innerHTML.length === 1) {
+  if (target.classList.contains('key') && target.innerHTML !== 'CapsLock') {
     target.classList.add('active');
-
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + target.innerHTML + TEXTAREA.value.substr(selectionStart);
-    TEXTAREA.selectionStart = selectionStart + target.innerHTML.length;
-    TEXTAREA.selectionEnd = selectionStart + target.innerHTML.length;
+    if (target.innerHTML === 'Enter') {
+      const enter = '\n';
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + enter + TEXTAREA.value.substr(selectionStart);
+    }
+    if (target.innerHTML === 'Tab') {
+      const tab = '    ';
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + tab + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.selectionStart = selectionStart + tab.length;
+      TEXTAREA.selectionEnd = selectionStart + tab.length;
+    }
+    if (target.innerHTML === 'Backspace') {
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1) + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.selectionStart = selectionStart - 1;
+      TEXTAREA.selectionEnd = selectionStart - 1;
+    }
+    if (target.innerHTML === 'Delete') {
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + TEXTAREA.value.substr(selectionStart + 1);
+      TEXTAREA.selectionStart = selectionStart;
+      TEXTAREA.selectionEnd = selectionStart;
+    }
+    if (target.innerHTML.length === 1) {
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + target.innerHTML + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.selectionStart = selectionStart + target.innerHTML.length;
+      TEXTAREA.selectionEnd = selectionStart + target.innerHTML.length;
+    }
   }
 };
 
