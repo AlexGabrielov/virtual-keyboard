@@ -252,7 +252,6 @@ const mousedownHandler = (event) => {
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     shift = true;
     renderKeyboard(localStorage.currentLang, shift, capslock);
-    // return;
   }
   if (target.innerHTML === 'CapsLock') {
     capslock = !capslock;
@@ -298,21 +297,13 @@ const mousedownHandler = (event) => {
 };
 
 const mouseupHandler = (event) => {
-  const { target } = event;
-  if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
-    if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', shift, capslock);
-    } else {
-      renderKeyboard('ru', shift, capslock);
+  shift = false;
+  renderKeyboard(localStorage.currentLang, shift, capslock);
+  KEYBOARD.querySelectorAll('.active').forEach((e) => {
+    if (e.innerHTML !== 'CapsLock') {
+      e.classList.remove('active');
     }
-  }
-  if (target.innerHTML !== 'CapsLock') target.classList.remove('active');
-
-  // KEYBOARD.querySelectorAll('.key').forEach((e) => {
-  //   if (e.classList.contains('active')) {
-  //     e.classList.remove('active');
-  //   }
-  // });
+  });
 };
 
 document.addEventListener('keydown', keydownHandler);
