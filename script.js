@@ -42,6 +42,7 @@ const keyboardRuShift = [
   ['LShift', 'Я', 'Ч', 'С', 'Ь', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'RShift'],
   ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
 ];
+
 const renderTextareaAndKeyboard = () => {
   BODY.appendChild(TEXTAREA);
   BODY.appendChild(KEYBOARD);
@@ -180,9 +181,9 @@ const keyupHandler = (event) => {
   if (key === 'Shift') {
     shift = false;
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng');
+      renderKeyboard('eng', shift, capslock);
     } else {
-      renderKeyboard('ru');
+      renderKeyboard('ru', shift, capslock);
     }
   }
   // if (key === 'Alt' && !ctrl) {
@@ -252,17 +253,34 @@ const mousedownHandler = (event) => {
   event.preventDefault();
   const { target } = event;
   let { selectionStart, selectionEnd } = TEXTAREA;
-  if ((target.innerHTML === 'RShift' || target.innerHTML === 'LShift') && !shift) {
+  if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     shift = true;
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', true);
+      renderKeyboard('eng', shift, capslock);
     } else {
-      renderKeyboard('ru', true);
+      renderKeyboard('ru', shift, capslock);
     }
     // return;
   }
+  if (target.innerHTML === 'CapsLock') {
+    console.log(capslock);
+    capslock = !capslock;
+    console.log(capslock);
+    if (localStorage.currentLang === 'eng') {
+      renderKeyboard('eng', shift, capslock);
+    } else {
+      renderKeyboard('ru', shift, capslock);
+    }
+    target.classList.toggle('active');
+  }
+  if (target.innerHTML === 'LAlt' || target.innerHTML === 'RAlt') {
+    alt = true;
+  }
+  if (target.innerHTML === 'LCtrl' || target.innerHTML === 'RCtrl') {
+    ctrl = true;
+  }
 
-  if (target.classList.contains('key')) {
+  if (target.classList.contains('key') && target.innerHTML.length === 1) {
     target.classList.add('active');
 
     TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + target.innerHTML + TEXTAREA.value.substr(selectionStart);
@@ -283,23 +301,25 @@ const mousedownHandler = (event) => {
 };
 
 const mouseupHandler = (event) => {
-  shift = false;
-  capslock = false;
-  alt = false;
-  ctrl = false;
+  // shift = false;
+  // capslock = false;
+  // alt = false;
+  // ctrl = false;
   const { target } = event;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng');
+      renderKeyboard('eng', shift, capslock);
     } else {
-      renderKeyboard('ru');
+      renderKeyboard('ru', shift, capslock);
     }
   }
-  KEYBOARD.querySelectorAll('.key').forEach((e) => {
-    if (e.classList.contains('active')) {
-      e.classList.remove('active');
-    }
-  });
+  if (target.innerHTML !== 'CapsLock') target.classList.remove('active');
+
+  // KEYBOARD.querySelectorAll('.key').forEach((e) => {
+  //   if (e.classList.contains('active')) {
+  //     e.classList.remove('active');
+  //   }
+  // });
 };
 
 document.addEventListener('keydown', keydownHandler);
@@ -309,6 +329,6 @@ KEYBOARD.addEventListener('mousedown', mousedownHandler);
 
 renderTextareaAndKeyboard();
 
-renderKeyboard(localStorage.currentLang);
+renderKeyboard(localStorage.currentLang, shift, capslock);
 
 renderText();
