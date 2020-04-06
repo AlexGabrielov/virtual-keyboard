@@ -128,7 +128,7 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
 const keydownHandler = (event) => {
   event.preventDefault();
   const { key, code, which, location } = event;
-  let { selectionStart, selectionEnd } = TEXTAREA;
+  const { selectionStart } = TEXTAREA;
   if (key === 'Shift') {
     shift = true;
     renderKeyboard(localStorage.currentLang, shift, capslock);
@@ -146,7 +146,6 @@ const keydownHandler = (event) => {
   }
   if (key !== 'CapsLock' && !location) {
     KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
-    // return;
   }
   // const pressedKey = KEYBOARD.getElementsByClassName(which)[0];
 
@@ -248,7 +247,7 @@ const keyupHandler = (event) => {
 const mousedownHandler = (event) => {
   event.preventDefault();
   const { target } = event;
-  let { selectionStart, selectionEnd } = TEXTAREA;
+  const { selectionStart, selectionEnd } = TEXTAREA;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     shift = true;
     renderKeyboard(localStorage.currentLang, shift, capslock);
@@ -296,7 +295,7 @@ const mousedownHandler = (event) => {
   }
 };
 
-const mouseupHandler = (event) => {
+const mouseupHandler = () => {
   shift = false;
   renderKeyboard(localStorage.currentLang, shift, capslock);
   KEYBOARD.querySelectorAll('.active').forEach((e) => {
