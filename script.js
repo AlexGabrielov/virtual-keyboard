@@ -44,7 +44,7 @@ const keyboardRuShift = [
 ];
 const keyWhichProps = [
   ['192', '49', '50', '51', '52', '53', '54', '55', '56', '57', '48', '189', '187', '8'],
-  ['9', '81', '87', '69', '82', '84', '89', '85', '73', '79', '80', '219', '221', '191', '46'],
+  ['9', '81', '87', '69', '82', '84', '89', '85', '73', '79', '80', '219', '221', '220', '46'],
   ['20', '65', '83', '68', '70', '71', '72', '74', '75', '76', '186', '222', '13'],
   ['16', '90', '88', '67', '86', '66', '78', '77', '188', '190', '191', '38', '16'],
   ['17', '91', '18', '32', '18', '37', '40', '39', '17'],
@@ -85,7 +85,6 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
       if (e === ' ') {
         key.classList.add('Whitespace');
       }
-
       if (e === '←') {
         key.classList.add('ArrowLeft');
       }
@@ -98,7 +97,6 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
       if (e === '↑') {
         key.classList.add('ArrowUp');
       }
-
       if (e === 'LShift') {
         key.classList.add('ShiftLeft');
       }
@@ -174,6 +172,28 @@ const keydownHandler = (event) => {
     TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + KEYBOARD.getElementsByClassName(which)[0].innerHTML + TEXTAREA.value.substr(selectionStart);
     TEXTAREA.selectionStart = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
     TEXTAREA.selectionEnd = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+  }
+  if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Enter') {
+    const enter = '\n';
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + enter + TEXTAREA.value.substr(selectionStart);
+    // TEXTAREA.selectionStart = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+    // TEXTAREA.selectionEnd = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+  }
+  if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Tab') {
+    const tab = '    ';
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + tab + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.selectionStart = selectionStart + tab.length;
+    TEXTAREA.selectionEnd = selectionStart + tab.length;
+  }
+  if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Backspace') {
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1) + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.selectionStart = selectionStart - 1;
+    TEXTAREA.selectionEnd = selectionStart - 1;
+  }
+  if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Delete') {
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + TEXTAREA.value.substr(selectionStart + 1);
+    TEXTAREA.selectionStart = selectionStart;
+    TEXTAREA.selectionEnd = selectionStart;
   }
 };
 const keyupHandler = (event) => {
