@@ -5,7 +5,7 @@ TEXTAREA.classList.add('textarea');
 const KEYBOARD = document.createElement('div');
 KEYBOARD.classList.add('keyboard');
 const OSText = 'Клавиатура создана в операционной системе Windows 10 ';
-const switchKeyboard = 'Чтобы переключить язык нажмите любые Ctrl + Alt';
+const switchKeyboard = 'Чтобы переключить язык нажмите LCtrl + LAlt';
 const BODY = document.body;
 localStorage.currentLang = localStorage.currentLang || 'eng';
 let shift = false;
@@ -42,8 +42,9 @@ const keyboardRuShift = [
   ['LShift', 'Я', 'Ч', 'С', 'Ь', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'RShift'],
   ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
 ];
-const renderTextarea = () => {
+const renderTextareaAndKeyboard = () => {
   BODY.appendChild(TEXTAREA);
+  BODY.appendChild(KEYBOARD);
 };
 const renderText = () => {
   const text = document.createElement('div');
@@ -52,12 +53,17 @@ const renderText = () => {
   text.innerHTML += switchKeyboard;
   BODY.appendChild(text);
 };
-const renderKeyboard = (lang, keyboardCase = false) => {
+const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
   let keyboardTypeFlat;
-  if (lang === 'eng' && keyboardCase) keyboardTypeFlat = keyboardEngShift.flat();
-  if (lang === 'ru' && keyboardCase) keyboardTypeFlat = keyboardRuShift.flat();
-  if (lang === 'eng' && !keyboardCase) keyboardTypeFlat = keyboardEng.flat();
-  if (lang === 'ru' && !keyboardCase) keyboardTypeFlat = keyboardRu.flat();
+  if (lang === 'eng' && shiftKey && !capslockKey) keyboardTypeFlat = keyboardEngShift.flat();
+  if (lang === 'ru' && shiftKey && !capslockKey) keyboardTypeFlat = keyboardRuShift.flat();
+  if (lang === 'eng' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardEng.flat();
+  if (lang === 'ru' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardRu.flat();
+  if (lang === 'eng' && !shiftKey && capslockKey) keyboardTypeFlat = keyboardEng.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+  if (lang === 'ru' && !shiftKey && capslockKey) keyboardTypeFlat = keyboardRu.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+  if (lang === 'eng' && shiftKey && capslockKey) keyboardTypeFlat = keyboardEngShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+  if (lang === 'ru' && shiftKey && capslockKey) keyboardTypeFlat = keyboardRuShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+
   if (!KEYBOARD.innerHTML) {
     keyboardTypeFlat.forEach((e) => {
       const key = document.createElement('div');
@@ -99,17 +105,17 @@ const keydownHandler = (event) => {
   if (key === 'Shift') {
     shift = true;
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', shift);
+      renderKeyboard('eng', shift, capslock);
     } else {
-      renderKeyboard('ru', shift);
+      renderKeyboard('ru', shift, capslock);
     }
   }
   if (key === 'CapsLock') {
     capslock = !capslock;
     if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', capslock);
+      renderKeyboard('eng', shift, capslock);
     } else {
-      renderKeyboard('ru', capslock);
+      renderKeyboard('ru', shift, capslock);
     }
   }
   if (key === 'Alt') {
@@ -188,10 +194,10 @@ const keyupHandler = (event) => {
   if (ctrl && alt) {
     if (localStorage.currentLang === 'eng') {
       localStorage.currentLang = 'ru';
-      renderKeyboard(localStorage.currentLang, shift);
+      renderKeyboard(localStorage.currentLang, shift, capslock);
     } else {
       localStorage.currentLang = 'eng';
-      renderKeyboard(localStorage.currentLang, shift);
+      renderKeyboard(localStorage.currentLang, shift, capslock);
     }
     ctrl = false;
     alt = false;
@@ -240,13 +246,6 @@ const keyupHandler = (event) => {
       e.classList.remove('active');
     }
   });
-  // if (key === 'CapsLock') {
-  //   if (currentLang === 'eng') {
-  //     renderKeyboard('eng', true);
-  //   } else {
-  //     renderKeyboard('ru', true);
-  //   }
-  // }
 };
 
 const mousedownHandler = (event) => {
@@ -284,9 +283,12 @@ const mousedownHandler = (event) => {
 };
 
 const mouseupHandler = (event) => {
+  shift = false;
+  capslock = false;
+  alt = false;
+  ctrl = false;
   const { target } = event;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
-    shift = false;
     if (localStorage.currentLang === 'eng') {
       renderKeyboard('eng');
     } else {
@@ -305,8 +307,8 @@ document.addEventListener('keyup', keyupHandler);
 document.addEventListener('mouseup', mouseupHandler);
 KEYBOARD.addEventListener('mousedown', mousedownHandler);
 
-renderTextarea();
-BODY.appendChild(KEYBOARD);
+renderTextareaAndKeyboard();
+
 renderKeyboard(localStorage.currentLang);
 
 renderText();
