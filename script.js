@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 const TEXTAREA = document.createElement('textarea');
 TEXTAREA.classList.add('textarea');
 const KEYBOARD = document.createElement('div');
@@ -67,10 +65,18 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
   if (lang === 'ru' && shiftKey && !capslockKey) keyboardTypeFlat = keyboardRuShift.flat();
   if (lang === 'eng' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardEng.flat();
   if (lang === 'ru' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardRu.flat();
-  if (lang === 'eng' && !shiftKey && capslockKey) keyboardTypeFlat = keyboardEng.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
-  if (lang === 'ru' && !shiftKey && capslockKey) keyboardTypeFlat = keyboardRu.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
-  if (lang === 'eng' && shiftKey && capslockKey) keyboardTypeFlat = keyboardEngShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
-  if (lang === 'ru' && shiftKey && capslockKey) keyboardTypeFlat = keyboardRuShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+  if (lang === 'eng' && !shiftKey && capslockKey) {
+    keyboardTypeFlat = keyboardEng.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+  }
+  if (lang === 'ru' && !shiftKey && capslockKey) {
+    keyboardTypeFlat = keyboardRu.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+  }
+  if (lang === 'eng' && shiftKey && capslockKey) {
+    keyboardTypeFlat = keyboardEngShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+  }
+  if (lang === 'ru' && shiftKey && capslockKey) {
+    keyboardTypeFlat = keyboardRuShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+  }
 
   if (!KEYBOARD.innerHTML) {
     const keyWhichPropsFlat = keyWhichProps.flat();
@@ -127,7 +133,9 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
 
 const keydownHandler = (event) => {
   event.preventDefault();
-  const { key, code, which, location } = event;
+  const {
+    key, code, which, location,
+  } = event;
   const { selectionStart } = TEXTAREA;
   if (key === 'Shift') {
     shift = true;
@@ -145,6 +153,9 @@ const keydownHandler = (event) => {
     ctrl = true;
   }
   if (key !== 'CapsLock' && !location) {
+    KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
+  }
+  if (which === 91) {
     KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
   }
   // const pressedKey = KEYBOARD.getElementsByClassName(which)[0];
@@ -168,27 +179,37 @@ const keydownHandler = (event) => {
     KEYBOARD.getElementsByClassName(code)[0].classList.add('active');
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML.length === 1) {
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + KEYBOARD.getElementsByClassName(which)[0].innerHTML + TEXTAREA.value.substr(selectionStart);
-    TEXTAREA.selectionStart = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
-    TEXTAREA.selectionEnd = selectionStart + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+      + KEYBOARD.getElementsByClassName(which)[0].innerHTML
+      + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.selectionStart = selectionStart
+    + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
+    TEXTAREA.selectionEnd = selectionStart
+    + KEYBOARD.getElementsByClassName(which)[0].innerHTML.length;
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Enter') {
     const enter = '\n';
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + enter + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+     + enter
+     + TEXTAREA.value.substr(selectionStart);
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Tab') {
     const tab = '    ';
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + tab + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+     + tab
+     + TEXTAREA.value.substr(selectionStart);
     TEXTAREA.selectionStart = selectionStart + tab.length;
     TEXTAREA.selectionEnd = selectionStart + tab.length;
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Backspace') {
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1) + TEXTAREA.value.substr(selectionStart);
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1)
+    + TEXTAREA.value.substr(selectionStart);
     TEXTAREA.selectionStart = selectionStart - 1;
     TEXTAREA.selectionEnd = selectionStart - 1;
   }
   if (KEYBOARD.getElementsByClassName(which)[0].innerHTML === 'Delete') {
-    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + TEXTAREA.value.substr(selectionStart + 1);
+    TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+    + TEXTAREA.value.substr(selectionStart + 1);
     TEXTAREA.selectionStart = selectionStart;
     TEXTAREA.selectionEnd = selectionStart;
   }
@@ -247,7 +268,7 @@ const keyupHandler = (event) => {
 const mousedownHandler = (event) => {
   event.preventDefault();
   const { target } = event;
-  const { selectionStart, selectionEnd } = TEXTAREA;
+  const { selectionStart } = TEXTAREA;
   if (target.innerHTML === 'RShift' || target.innerHTML === 'LShift') {
     shift = true;
     renderKeyboard(localStorage.currentLang, shift, capslock);
@@ -269,26 +290,34 @@ const mousedownHandler = (event) => {
     target.classList.add('active');
     if (target.innerHTML === 'Enter') {
       const enter = '\n';
-      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + enter + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+      + enter
+      + TEXTAREA.value.substr(selectionStart);
     }
     if (target.innerHTML === 'Tab') {
       const tab = '    ';
-      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + tab + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+      + tab
+      + TEXTAREA.value.substr(selectionStart);
       TEXTAREA.selectionStart = selectionStart + tab.length;
       TEXTAREA.selectionEnd = selectionStart + tab.length;
     }
     if (target.innerHTML === 'Backspace') {
-      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1) + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart - 1)
+      + TEXTAREA.value.substr(selectionStart);
       TEXTAREA.selectionStart = selectionStart - 1;
       TEXTAREA.selectionEnd = selectionStart - 1;
     }
     if (target.innerHTML === 'Delete') {
-      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + TEXTAREA.value.substr(selectionStart + 1);
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+      + TEXTAREA.value.substr(selectionStart + 1);
       TEXTAREA.selectionStart = selectionStart;
       TEXTAREA.selectionEnd = selectionStart;
     }
     if (target.innerHTML.length === 1) {
-      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart) + target.innerHTML + TEXTAREA.value.substr(selectionStart);
+      TEXTAREA.value = TEXTAREA.value.substr(0, selectionStart)
+        + target.innerHTML
+        + TEXTAREA.value.substr(selectionStart);
       TEXTAREA.selectionStart = selectionStart + target.innerHTML.length;
       TEXTAREA.selectionEnd = selectionStart + target.innerHTML.length;
     }
