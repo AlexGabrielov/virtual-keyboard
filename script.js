@@ -12,40 +12,40 @@ let alt = false;
 let ctrl = false;
 
 const keyboardEng = [
-  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Delete'],
-  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
-  ['LShift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '↑', 'RShift'],
-  ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
+  '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+  'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Delete',
+  'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter',
+  'LShift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '↑', 'RShift',
+  'LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl',
 ];
 
 const keyboardEngShift = [
-  ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Delete'],
-  ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter'],
-  ['LShift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'RShift'],
-  ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
+  '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
+  'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Delete',
+  'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter',
+  'LShift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'RShift',
+  'LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl',
 ];
 const keyboardRu = [
-  ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-  ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Delete'],
-  ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
-  ['LShift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'RShift'],
-  ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
+  'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+  'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Delete',
+  'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
+  'LShift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'RShift',
+  'LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl',
 ];
 const keyboardRuShift = [
-  ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
-  ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Delete'],
-  ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-  ['LShift', 'Я', 'Ч', 'С', 'Ь', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'RShift'],
-  ['LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl'],
+  'Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
+  'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Delete',
+  'CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter',
+  'LShift', 'Я', 'Ч', 'С', 'Ь', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'RShift',
+  'LCtrl', 'Win', 'LAlt', ' ', 'RAlt', '←', '↓', '→', 'RCtrl',
 ];
 const keyWhichProps = [
-  ['192', '49', '50', '51', '52', '53', '54', '55', '56', '57', '48', '189', '187', '8'],
-  ['9', '81', '87', '69', '82', '84', '89', '85', '73', '79', '80', '219', '221', '220', '46'],
-  ['20', '65', '83', '68', '70', '71', '72', '74', '75', '76', '186', '222', '13'],
-  ['16', '90', '88', '67', '86', '66', '78', '77', '188', '190', '191', '38', '16'],
-  ['17', '91', '18', '32', '18', '37', '40', '39', '17'],
+  '192', '49', '50', '51', '52', '53', '54', '55', '56', '57', '48', '189', '187', '8',
+  '9', '81', '87', '69', '82', '84', '89', '85', '73', '79', '80', '219', '221', '220', '46',
+  '20', '65', '83', '68', '70', '71', '72', '74', '75', '76', '186', '222', '13',
+  '16', '90', '88', '67', '86', '66', '78', '77', '188', '190', '191', '38', '16',
+  '17', '91', '18', '32', '18', '37', '40', '39', '17',
 ];
 
 const renderTextareaAndKeyboard = () => {
@@ -59,31 +59,39 @@ const renderText = () => {
   text.innerHTML += switchKeyboard;
   BODY.appendChild(text);
 };
+
 const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
-  let keyboardTypeFlat;
-  if (lang === 'eng' && shiftKey && !capslockKey) keyboardTypeFlat = keyboardEngShift.flat();
-  if (lang === 'ru' && shiftKey && !capslockKey) keyboardTypeFlat = keyboardRuShift.flat();
-  if (lang === 'eng' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardEng.flat();
-  if (lang === 'ru' && !shiftKey && !capslockKey) keyboardTypeFlat = keyboardRu.flat();
+  let keyboardType;
+  if (lang === 'eng' && shiftKey && !capslockKey) {
+    keyboardType = keyboardEngShift;
+  }
+  if (lang === 'ru' && shiftKey && !capslockKey) {
+    keyboardType = keyboardRuShift;
+  }
+  if (lang === 'eng' && !shiftKey && !capslockKey) {
+    keyboardType = keyboardEng;
+  }
+  if (lang === 'ru' && !shiftKey && !capslockKey) {
+    keyboardType = keyboardRu;
+  }
   if (lang === 'eng' && !shiftKey && capslockKey) {
-    keyboardTypeFlat = keyboardEng.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+    keyboardType = keyboardEng.map((e) => (e.length === 1 ? e.toUpperCase() : e));
   }
   if (lang === 'ru' && !shiftKey && capslockKey) {
-    keyboardTypeFlat = keyboardRu.flat().map((e) => (e.length === 1 ? e.toUpperCase() : e));
+    keyboardType = keyboardRu.map((e) => (e.length === 1 ? e.toUpperCase() : e));
   }
   if (lang === 'eng' && shiftKey && capslockKey) {
-    keyboardTypeFlat = keyboardEngShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+    keyboardType = keyboardEngShift.map((e) => (e.length === 1 ? e.toLowerCase() : e));
   }
   if (lang === 'ru' && shiftKey && capslockKey) {
-    keyboardTypeFlat = keyboardRuShift.flat().map((e) => (e.length === 1 ? e.toLowerCase() : e));
+    keyboardType = keyboardRuShift.map((e) => (e.length === 1 ? e.toLowerCase() : e));
   }
 
   if (!KEYBOARD.innerHTML) {
-    const keyWhichPropsFlat = keyWhichProps.flat();
-    keyboardTypeFlat.forEach((e, i) => {
+    keyboardType.forEach((e, i) => {
       const key = document.createElement('div');
       key.classList.add('key');
-      key.classList.add(keyWhichPropsFlat[i]);
+      key.classList.add(keyWhichProps[i]);
       key.innerHTML = e;
       if (e.length > 1) {
         key.classList.add(e);
@@ -126,7 +134,7 @@ const renderKeyboard = (lang, shiftKey = false, capslockKey = false) => {
     });
   } else {
     KEYBOARD.childNodes.forEach((e, i) => {
-      e.innerHTML = keyboardTypeFlat[i];
+      e.innerHTML = keyboardType[i];
     });
   }
 };
@@ -152,14 +160,9 @@ const keydownHandler = (event) => {
   if (key === 'Control') {
     ctrl = true;
   }
-  if (key !== 'CapsLock' && !location) {
+  if ((key !== 'CapsLock' && !location) || which === 91) {
     KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
   }
-  if (which === 91) {
-    KEYBOARD.getElementsByClassName(which)[0].classList.add('active');
-  }
-  // const pressedKey = KEYBOARD.getElementsByClassName(which)[0];
-
   if (code === 'ShiftLeft') {
     KEYBOARD.getElementsByClassName(code)[0].classList.add('active');
   }
@@ -219,11 +222,7 @@ const keyupHandler = (event) => {
   const { key, code, which } = event;
   if (key === 'Shift') {
     shift = false;
-    if (localStorage.currentLang === 'eng') {
-      renderKeyboard('eng', shift, capslock);
-    } else {
-      renderKeyboard('ru', shift, capslock);
-    }
+    renderKeyboard(localStorage.currentLang, shift, capslock);
   }
 
   if (ctrl && alt) {
